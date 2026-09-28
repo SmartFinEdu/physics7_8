@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="uk" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Фізика 7 клас | Урок 8: Механічний рух & Підготовка до самостійної роботи</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        },
+                        amberAccent: '#f59e0b',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html, body {
+            height: 100%;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+        }
+        .node-card {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .node-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px -4px rgba(79, 70, 229, 0.15);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .vector-text {
+            position: relative;
+            display: inline-block;
+        }
+        .vector-text::after {
+            content: "→";
+            position: absolute;
+            top: -0.6em;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0.9);
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased flex flex-col h-screen overflow-hidden justify-between">
+
+    <!-- Navigation & Header -->
+    <header class="bg-white border-b border-slate-200 shrink-0 shadow-sm z-30">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6">
+            <div class="flex items-center justify-between h-13 sm:h-14">
+                <!-- Logo & Lesson Info -->
+                <div class="flex items-center space-x-2.5">
+                    <div class="bg-gradient-to-tr from-brand-600 to-indigo-500 text-white p-2 rounded-xl shadow-sm">
+                        <i class="fa-solid fa-atom text-lg"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="bg-indigo-100 text-indigo-700 font-extrabold text-[10px] sm:text-xs px-2 py-0.5 rounded-md border border-indigo-200">
+                                Інтелект України
+                            </span>
+                            <span class="text-[11px] text-slate-500 font-semibold hidden sm:inline">Фізика 7 клас • Урок 8</span>
+                        </div>
+                        <h1 class="text-sm sm:text-base font-black text-slate-900 leading-tight">
+                            Розв'язування задач. Самостійна робота №1
+                        </h1>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs (Desktop) -->
+                <nav class="hidden md:flex items-center space-x-1">
+                    <button onclick="switchStep(1)" id="tab-btn-1" class="step-tab px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 transition-all text-indigo-600 bg-indigo-50 border border-indigo-200/60">
+                        <span class="w-4 h-4 rounded-full bg-indigo-600 text-white flex items-center justify-center text-[10px]">1</span>
+                        Налаштування
+                    </button>
+                    <button onclick="switchStep(2)" id="tab-btn-2" class="step-tab px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 transition-all text-slate-600 hover:bg-slate-100">
+                        <span class="w-4 h-4 rounded-full bg-slate-300 text-slate-700 flex items-center justify-center text-[10px]">2</span>
+                        Д/З
+                    </button>
+                    <button onclick="switchStep(3)" id="tab-btn-3" class="step-tab px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 transition-all text-slate-600 hover:bg-slate-100">
+                        <span class="w-4 h-4 rounded-full bg-slate-300 text-slate-700 flex items-center justify-center text-[10px]">3</span>
+                        Карта знань
+                    </button>
+                    <button onclick="switchStep(4)" id="tab-btn-4" class="step-tab px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 transition-all text-slate-600 hover:bg-slate-100">
+                        <span class="w-4 h-4 rounded-full bg-slate-300 text-slate-700 flex items-center justify-center text-[10px]">4</span>
+                        Формули
+                    </button>
+                    <button onclick="switchStep(5)" id="tab-btn-5" class="step-tab px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 transition-all text-slate-600 hover:bg-slate-100">
+                        <span class="w-4 h-4 rounded-full bg-slate-300 text-slate-700 flex items-center justify-center text-[10px]">5</span>
+                        Задача
+                    </button>
+                    <button onclick="switchStep(6)" id="tab-btn-6" class="step-tab px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 transition-all text-slate-600 hover:bg-slate-100">
+                        <span class="w-4 h-4 rounded-full bg-amber-500 text-white flex items-center justify-center text-[10px]"><i class="fa-solid fa-clock"></i></span>
+                        С/Р (15 хв)
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Mobile Step Select Navigation Bar -->
+        <div class="md:hidden border-t border-slate-200 bg-slate-50 px-3 py-1.5 overflow-x-auto flex items-center gap-1.5 custom-scrollbar shrink-0">
+            <button onclick="switchStep(1)" id="mobile-tab-btn-1" class="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-bold bg-indigo-600 text-white">1. Налаштування</button>
+            <button onclick="switchStep(2)" id="mobile-tab-btn-2" class="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-slate-700 border border-slate-200">2. Д/З</button>
+            <button onclick="switchStep(3)" id="mobile-tab-btn-3" class="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-slate-700 border border-slate-200">3. Карта знань</button>
+            <button onclick="switchStep(4)" id="mobile-tab-btn-4" class="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-slate-700 border border-slate-200">4. Формули</button>
+            <button onclick="switchStep(5)" id="mobile-tab-btn-5" class="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-slate-700 border border-slate-200">5. Задача</button>
+            <button onclick="switchStep(6)" id="mobile-tab-btn-6" class="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-500 text-white">6. Самостійна</button>
+        </div>
+    </header>
+
+    <!-- Main Content Container (No page scroll, height fills remaining screen) -->
+    <main class="max-w-7xl mx-auto px-3 sm:px-6 py-2.5 flex-1 min-h-0 w-full flex flex-col">
+
+        <!-- Progress Indicator Bar -->
+        <div class="mb-2.5 bg-white rounded-xl px-3.5 py-2 shadow-sm border border-slate-200/80 shrink-0">
+            <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-black text-slate-600 uppercase tracking-wide" id="progress-label">Етап 1 з 6: Налаштування на активну роботу</span>
+                <span class="text-xs font-black text-indigo-600" id="progress-percent">16%</span>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                <div id="progress-bar" class="bg-gradient-to-r from-indigo-500 to-amber-500 h-2 rounded-full transition-all duration-300" style="width: 16%"></div>
+            </div>
+        </div>
+
+        <!-- ================= STEP 1: FOCUS / MOTIVATION ================= -->
+        <section id="step-1" class="step-container flex-1 min-h-0 flex flex-col justify-between bg-gradient-to-br from-indigo-950 via-indigo-900 to-slate-900 rounded-2xl p-4 sm:p-6 text-white shadow-lg overflow-y-auto custom-scrollbar relative">
+            <div class="max-w-4xl space-y-3 sm:space-y-4">
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/20 border border-amber-400/30 text-amber-300 text-xs font-bold">
+                    <i class="fa-solid fa-bullseye"></i> Пункт 1 програмного зошита
+                </div>
+                <h2 class="text-xl sm:text-3xl font-black tracking-tight leading-snug">
+                    Налаштуйся на активну та успішну роботу на уроці!
+                </h2>
+                <p class="text-slate-200 text-sm sm:text-base leading-relaxed">
+                    Фізика — це наука про природу, що пояснює все навколо нас: від руху човна за течією річки до польоту ракет у космос. Сконцентруйся, підготуй робочий зошит та ручку!
+                </p>
+
+                <!-- Interactive Warm-up Checklist -->
+                <div class="bg-white/10 backdrop-blur-md rounded-xl p-3.5 sm:p-4 border border-white/10 space-y-2">
+                    <h3 class="text-xs sm:text-sm font-extrabold text-amber-300 flex items-center gap-2">
+                        <i class="fa-solid fa-list-check"></i> Експрес-перевірка готовності:
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs sm:text-sm font-semibold">
+                        <label class="flex items-center gap-2.5 p-2.5 bg-white/5 rounded-lg cursor-pointer hover:bg-white/10 transition">
+                            <input type="checkbox" onchange="checkWarmup()" class="warmup-check w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500">
+                            <span>Зошит та ручка поруч</span>
+                        </label>
+                        <label class="flex items-center gap-2.5 p-2.5 bg-white/5 rounded-lg cursor-pointer hover:bg-white/10 transition">
+                            <input type="checkbox" onchange="checkWarmup()" class="warmup-check w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500">
+                            <span>Увага та фокус 100%</span>
+                        </label>
+                        <label class="flex items-center gap-2.5 p-2.5 bg-white/5 rounded-lg cursor-pointer hover:bg-white/10 transition">
+                            <input type="checkbox" onchange="checkWarmup()" class="warmup-check w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500">
+                            <span>Готовий до перемог!</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Interactive Focus Breathing Timer -->
+                <div class="flex flex-col sm:flex-row items-center gap-3 bg-indigo-950/80 p-3 rounded-xl border border-indigo-700/50">
+                    <div class="flex-grow text-center sm:text-left">
+                        <p class="text-xs text-indigo-300 font-bold">Техніка швидкої концентрації (10 сек):</p>
+                        <p id="breath-instruction" class="text-xs sm:text-sm font-extrabold text-white">Зроби глибокий вдих та налаштуйся на пошук розв’язків</p>
+                    </div>
+                    <button onclick="startFocusBreath()" id="breath-btn" class="w-full sm:w-auto px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs uppercase tracking-wider rounded-lg transition shadow-md flex items-center justify-center gap-1.5 shrink-0">
+                        <i class="fa-solid fa-wind"></i> Фокус-подих
+                    </button>
+                </div>
+            </div>
+
+            <div class="pt-3 flex justify-end shrink-0">
+                <button onclick="switchStep(2)" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md transition flex items-center gap-2">
+                    Перейти до перевірки Д/З <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= STEP 2: HOMEWORK CHECK ================= -->
+        <section id="step-2" class="step-container hidden flex-1 min-h-0 flex flex-col justify-between bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200 overflow-y-auto custom-scrollbar">
+            <div class="space-y-3">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                    <div>
+                        <div class="inline-flex items-center gap-1.5 text-xs font-black text-indigo-600 uppercase tracking-wider">
+                            <i class="fa-solid fa-book-open"></i> Пункт 2
+                        </div>
+                        <h2 class="text-base sm:text-xl font-extrabold text-slate-900">
+                            Перевірка домашнього завдання
+                        </h2>
+                    </div>
+                    <span class="text-xs font-extrabold px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-full border border-indigo-100">
+                        3 Запитання
+                    </span>
+                </div>
+
+                <!-- Quiz Questions Grid -->
+                <div class="grid grid-cols-1 gap-2.5">
+                    <!-- Q1 -->
+                    <div class="bg-slate-50 rounded-xl p-3 border border-slate-200">
+                        <h3 class="font-bold text-slate-900 text-xs sm:text-sm mb-2 flex items-start gap-2">
+                            <span class="bg-indigo-600 text-white text-[11px] font-bold rounded-md w-5 h-5 flex items-center justify-center shrink-0 mt-0.5">1</span>
+                            Що є головною ознакою механічного руху тіла?
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" id="q1-options">
+                            <button onclick="checkAnswer(1, 0, false)" class="q-btn text-left p-2.5 bg-white border border-slate-200 hover:border-indigo-300 rounded-lg text-xs font-semibold transition flex items-center justify-between">
+                                <span>Зміна температури тіла з часом</span>
+                                <i class="fa-regular fa-circle text-slate-300 ml-2"></i>
+                            </button>
+                            <button onclick="checkAnswer(1, 1, true)" class="q-btn text-left p-2.5 bg-white border border-slate-200 hover:border-indigo-300 rounded-lg text-xs font-semibold transition flex items-center justify-between">
+                                <span>Зміна з часом положення тіла у просторі відносно інших тіл</span>
+                                <i class="fa-regular fa-circle text-slate-300 ml-2"></i>
+                            </button>
+                            <button onclick="checkAnswer(1, 2, false)" class="q-btn text-left p-2.5 bg-white border border-slate-200 hover:border-indigo-300 rounded-lg text-xs font-semibold transition flex items-center justify-between">
+                                <span>Зміна агрегатного стану речовини</span>
+                                <i class="fa-regular fa-circle text-slate-300 ml-2"></i>
+                            </button>
+                            <button onclick="checkAnswer(1, 3, false)" class="q-btn text-left p-2.5 bg-white border border-slate-200 hover:border-indigo-300 rounded-lg text-xs font-semibold transition flex items-center justify-between">
+                                <span>Збільшення швидкості молекул тіла</span>
+                                <i class="fa-regular fa-circle text-slate-300 ml-2"></i>
+                            </button>
+                        </div>
+                        <div id="q1-feedback" class="mt-2 hidden text-xs font-bold p-2 rounded-lg"></div>
+                    </div>
+
+                    <!-- Q2 -->
+                    <div class="bg-slate-50 rounded-xl p-3 border border-slate-200">
+                        <h3 class="font-bold text-slate-900 text-xs sm:text-sm mb-2 flex items-start gap-2">
+                            <span class="bg-indigo-600 text-white text-[11px] font-bold rounded-md w-5 h-5 flex items-center justify-center shrink-0 mt-0.5">2</span>
+                            Чим переміщення (<span class="vector-text">s</span>) відрізняється від шляху (l)?
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" id="q2-options">
+                            <button onclick="checkAnswer(2, 0, false)" class="q-btn text-left p-2.5 bg-white border border-slate-200 hover:border-indigo-300 rounded-lg text-xs font-semibold transition flex items-center justify-between">
+                                <span>Переміщення завжди більше за шлях</span>
+                                <i class="fa-regular fa-circle text-slate-300 ml-2"></i>
+                            </button>
+                            <button onclick="checkAnswer(2, 1, true)" class="q-btn text-left p-2.5 bg-white border border-slate-200 hover:border-indigo-300 rounded-lg text-xs font-semibold transition flex items-center justify-between">
+                                <span>Переміщення — це спрямований відрізок (вектор), а шлях — довжина траєкторії</span>
+                                <i class="fa-regular fa-circle text-slate-300 ml-2"></i>
+                            </button>
+                            <button onclick="checkAnswer(2, 2, false)" class="q-btn text-left p-2.5 bg-white border border-slate-200 hover:border-indigo-300 rounded-lg text-xs font-semibold transition flex items-center justify-between">
+                                <span>Шлях вимірюється в секундах, а переміщення в метрах</span>
+                                <i class="fa-regular fa-circle text-slate-300 ml-2"></i>
+                            </button>
+                            <button onclick="checkAnswer(2, 3, false)" class="q-btn text-left p-2.5 bg-white border border-slate-200 hover:border-indigo-300 rounded-lg text-xs font-semibold transition flex items-center justify-between">
+                                <span>Переміщення не має напрямку</span>
+                                <i class="fa-regular fa-circle text-slate-300 ml-2"></i>
+                            </button>
+                        </div>
+                        <div id="q2-feedback" class="mt-2 hidden text-xs font-bold p-2 rounded-lg"></div>
+                    </div>
+
+                    <!-- Q3 -->
+                    <div class="bg-slate-50 rounded-xl p-3 border border-slate-200">
+                        <h3 class="font-bold text-slate-900 text-xs sm:text-sm mb-2 flex items-start gap-2">
+                            <span class="bg-indigo-600 text-white text-[11px] font-bold rounded-md w-5 h-5 flex items-center justify-center shrink-0 mt-0.5">3</span>
+                            В яких одиницях SI вимірюють швидкість руху?
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" id="q3-options">
+                            <button onclick="checkAnswer(3, 0, false)" class="q-btn text-left p-2.5 bg-white border border-slate-200 hover:border-indigo-300 rounded-lg text-xs font-semibold transition flex items-center justify-between">
+                                <span>км/год</span>
+                                <i class="fa-regular fa-circle text-slate-300 ml-2"></i>
+                            </button>
+                            <button onclick="checkAnswer(3, 1, true)" class="q-btn text-left p-2.5 bg-white border border-slate-200 hover:border-indigo-300 rounded-lg text-xs font-semibold transition flex items-center justify-between">
+                                <span>м/с (метри за секунду)</span>
+                                <i class="fa-regular fa-circle text-slate-300 ml-2"></i>
+                            </button>
+                            <button onclick="checkAnswer(3, 2, false)" class="q-btn text-left p-2.5 bg-white border border-slate-200 hover:border-indigo-300 rounded-lg text-xs font-semibold transition flex items-center justify-between">
+                                <span>см/хв</span>
+                                <i class="fa-regular fa-circle text-slate-300 ml-2"></i>
+                            </button>
+                            <button onclick="checkAnswer(3, 3, false)" class="q-btn text-left p-2.5 bg-white border border-slate-200 hover:border-indigo-300 rounded-lg text-xs font-semibold transition flex items-center justify-between">
+                                <span>м·с</span>
+                                <i class="fa-regular fa-circle text-slate-300 ml-2"></i>
+                            </button>
+                        </div>
+                        <div id="q3-feedback" class="mt-2 hidden text-xs font-bold p-2 rounded-lg"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-3 flex justify-between items-center border-t border-slate-100 shrink-0">
+                <button onclick="switchStep(1)" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition">
+                    <i class="fa-solid fa-arrow-left mr-1"></i> Назад
+                </button>
+                <button onclick="switchStep(3)" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs transition shadow-sm">
+                    Карта знань <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= STEP 3: KNOWLEDGE MAP ================= -->
+        <section id="step-3" class="step-container hidden flex-1 min-h-0 flex flex-col justify-between bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200 overflow-y-auto custom-scrollbar">
+            <div class="space-y-3">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-2 gap-2">
+                    <div>
+                        <div class="inline-flex items-center gap-1 text-xs font-black text-indigo-600 uppercase tracking-wider">
+                            <i class="fa-solid fa-diagram-project"></i> Пункт 3 (Карта знань, с. 63)
+                        </div>
+                        <h2 class="text-base sm:text-xl font-extrabold text-slate-900">
+                            Карта знань «Механічний рух»
+                        </h2>
+                    </div>
+
+                    <!-- Search Filter inside Knowledge map -->
+                    <div class="relative w-full sm:w-56">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                        <input type="text" id="map-search" oninput="filterMapNodes()" placeholder="Шукати по карті знань..." class="w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                </div>
+
+                <!-- Central Concept Highlight -->
+                <div class="bg-indigo-900 text-white p-3.5 sm:p-4 rounded-xl shadow-md text-center relative overflow-hidden">
+                    <span class="text-[10px] uppercase font-black tracking-widest text-indigo-300">Центральне поняття</span>
+                    <h3 class="text-lg sm:text-xl font-black mt-0.5 mb-1">Механічний рух</h3>
+                    <p class="text-xs sm:text-sm max-w-2xl mx-auto text-indigo-100 font-medium leading-normal">
+                        — зміна з часом положення тіла або його частин у просторі відносно інших тіл.
+                    </p>
+                </div>
+
+                <!-- Interactive Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5" id="knowledge-grid">
+                    
+                    <!-- Node 1 -->
+                    <div class="node-card bg-slate-50 border border-slate-200 p-3 rounded-xl space-y-2" data-title="Прямолінійний Криволінійний">
+                        <div class="flex items-center gap-1.5 text-indigo-700 text-xs font-black uppercase">
+                            <i class="fa-solid fa-route"></i> За формою траєкторії
+                        </div>
+                        <div class="space-y-1.5">
+                            <div class="p-2 bg-white rounded-lg border border-slate-200">
+                                <span class="font-extrabold text-xs text-slate-900 block">Прямолінійний рух</span>
+                                <p class="text-[11px] sm:text-xs text-slate-600">Траєкторією є пряма лінія.</p>
+                            </div>
+                            <div class="p-2 bg-white rounded-lg border border-slate-200">
+                                <span class="font-extrabold text-xs text-slate-900 block">Криволінійний рух</span>
+                                <p class="text-[11px] sm:text-xs text-slate-600">Траєкторією є крива лінія.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Node 2 -->
+                    <div class="node-card bg-slate-50 border border-slate-200 p-3 rounded-xl space-y-2" data-title="Рівномірний Нерівномірний">
+                        <div class="flex items-center gap-1.5 text-indigo-700 text-xs font-black uppercase">
+                            <i class="fa-solid fa-gauge-high"></i> За зміною швидкості
+                        </div>
+                        <div class="space-y-1.5">
+                            <div class="p-2 bg-white rounded-lg border border-slate-200">
+                                <span class="font-extrabold text-xs text-slate-900 block">Рівномірний рух</span>
+                                <p class="text-[11px] sm:text-xs text-slate-600">За однакові інтервали часу тіло долає однаковий шлях.</p>
+                            </div>
+                            <div class="p-2 bg-white rounded-lg border border-slate-200">
+                                <span class="font-extrabold text-xs text-slate-900 block">Нерівномірний рух</span>
+                                <p class="text-[11px] sm:text-xs text-slate-600">За однакові інтервали часу тіло долає різний шлях.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Node 3 -->
+                    <div class="node-card bg-slate-50 border border-slate-200 p-3 rounded-xl space-y-2" data-title="Поступальний Обертальний">
+                        <div class="flex items-center gap-1.5 text-indigo-700 text-xs font-black uppercase">
+                            <i class="fa-solid fa-rotate"></i> Типи руху абсолютно твердого тіла
+                        </div>
+                        <div class="space-y-1.5">
+                            <div class="p-2 bg-white rounded-lg border border-slate-200">
+                                <span class="font-extrabold text-xs text-slate-900 block">Поступальний рух</span>
+                                <p class="text-[11px] sm:text-xs text-slate-600">Всі точки тіла рухаються однаково.</p>
+                            </div>
+                            <div class="p-2 bg-white rounded-lg border border-slate-200">
+                                <span class="font-extrabold text-xs text-slate-900 block">Обертальний рух</span>
+                                <p class="text-[11px] sm:text-xs text-slate-600">Точки рухаються по колах навколо осі.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Node 4 -->
+                    <div class="node-card bg-amber-50/70 border border-amber-200/80 p-3 rounded-xl space-y-2" data-title="Система відліку Відносність Матеріальна точка">
+                        <div class="flex items-center gap-1.5 text-amber-800 text-xs font-black uppercase">
+                            <i class="fa-solid fa-compass"></i> Базові поняття
+                        </div>
+                        <div class="space-y-1.5">
+                            <div class="p-2 bg-white rounded-lg border border-amber-100">
+                                <span class="font-extrabold text-xs text-slate-900 block">Система відліку</span>
+                                <p class="text-[11px] sm:text-xs text-slate-600">Тіло відліку + система координат + годинник.</p>
+                            </div>
+                            <div class="p-2 bg-white rounded-lg border border-amber-100">
+                                <span class="font-extrabold text-xs text-slate-900 block">Матеріальна точка</span>
+                                <p class="text-[11px] sm:text-xs text-slate-600">Розмірами тіла в умовах даної задачі нехтують.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Node 5 -->
+                    <div class="node-card bg-indigo-50/70 border border-indigo-200/80 p-3 rounded-xl space-y-2 md:col-span-2" data-title="Траєкторія Шлях Переміщення">
+                        <div class="flex items-center gap-1.5 text-indigo-800 text-xs font-black uppercase">
+                            <i class="fa-solid fa-ruler-combined"></i> Характеристики руху
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-1.5">
+                            <div class="p-2 bg-white rounded-lg border border-indigo-100">
+                                <span class="font-extrabold text-xs text-indigo-900 block">Траєкторія</span>
+                                <p class="text-[11px] sm:text-xs text-slate-600">Неперервна уявна лінія руху.</p>
+                            </div>
+                            <div class="p-2 bg-white rounded-lg border border-indigo-100">
+                                <span class="font-extrabold text-xs text-indigo-900 block">Шлях (l)</span>
+                                <p class="text-[11px] sm:text-xs text-slate-600">Скаляр, довжина траєкторії.<br><span class="font-bold text-indigo-600">[l] = м</span></p>
+                            </div>
+                            <div class="p-2 bg-white rounded-lg border border-indigo-100">
+                                <span class="font-extrabold text-xs text-indigo-900 block">Переміщення (<span class="vector-text">s</span>)</span>
+                                <p class="text-[11px] sm:text-xs text-slate-600">Вектор (початок → кінець).<br><span class="font-bold text-indigo-600">[s] = м</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="pt-3 flex justify-between items-center border-t border-slate-100 shrink-0">
+                <button onclick="switchStep(2)" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition">
+                    <i class="fa-solid fa-arrow-left mr-1"></i> Назад
+                </button>
+                <button onclick="switchStep(4)" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs transition shadow-sm">
+                    Тренажер формул <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= STEP 4: FORMULAS TRAINER ================= -->
+        <section id="step-4" class="step-container hidden flex-1 min-h-0 flex flex-col justify-between bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200 overflow-y-auto custom-scrollbar">
+            <div class="space-y-3">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                    <div>
+                        <div class="inline-flex items-center gap-1 text-xs font-black text-indigo-600 uppercase tracking-wider">
+                            <i class="fa-solid fa-square-root-variable"></i> Пункт 4
+                        </div>
+                        <h2 class="text-base sm:text-xl font-extrabold text-slate-900">
+                            Тренажер написання формул
+                        </h2>
+                    </div>
+                    <span class="text-xs font-extrabold px-2.5 py-1 bg-amber-100 text-amber-900 rounded-full border border-amber-200">
+                        Інтерактивний блок
+                    </span>
+                </div>
+
+                <!-- Formula Interactive Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+
+                    <!-- Formula 1 -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2.5">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-extrabold text-xs sm:text-sm text-slate-900">1. Вектор швидкості:</h3>
+                            <span class="text-[11px] font-mono font-bold bg-slate-200 px-2 py-0.5 rounded text-slate-700">v-вектор</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-center space-x-2 bg-white p-3 rounded-lg border border-slate-200 font-mono text-base sm:text-lg">
+                            <span class="font-bold vector-text text-indigo-700">v</span>
+                            <span>=</span>
+                            <div class="flex flex-col items-center">
+                                <input type="text" id="f1-top" placeholder="?" class="w-10 text-center py-0.5 border-2 border-dashed border-indigo-300 rounded font-bold text-indigo-600 focus:outline-none focus:border-indigo-600 text-sm">
+                                <div class="w-full bg-slate-800 h-0.5 my-0.5"></div>
+                                <input type="text" id="f1-bot" placeholder="?" class="w-10 text-center py-0.5 border-2 border-dashed border-indigo-300 rounded font-bold text-indigo-600 focus:outline-none focus:border-indigo-600 text-sm">
+                            </div>
+                        </div>
+
+                        <button onclick="checkFormula1()" class="w-full py-1.5 bg-indigo-100 hover:bg-indigo-200 text-indigo-800 font-bold rounded-lg text-xs transition">
+                            Перевірити
+                        </button>
+                        <div id="f1-feedback" class="text-xs font-bold text-center hidden"></div>
+                    </div>
+
+                    <!-- Formula 2 -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2.5">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-extrabold text-xs sm:text-sm text-slate-900">2. Проекція переміщення:</h3>
+                            <span class="text-[11px] font-mono font-bold bg-slate-200 px-2 py-0.5 rounded text-slate-700">s_x</span>
+                        </div>
+
+                        <div class="flex items-center justify-center space-x-2 bg-white p-3 rounded-lg border border-slate-200 font-mono text-base sm:text-lg">
+                            <span class="font-bold text-indigo-700">s<sub>x</sub></span>
+                            <span>=</span>
+                            <input type="text" id="f2-val1" placeholder="?" class="w-10 text-center py-0.5 border-2 border-dashed border-indigo-300 rounded font-bold text-indigo-600 focus:outline-none focus:border-indigo-600 text-sm">
+                            <span>·</span>
+                            <input type="text" id="f2-val2" placeholder="?" class="w-10 text-center py-0.5 border-2 border-dashed border-indigo-300 rounded font-bold text-indigo-600 focus:outline-none focus:border-indigo-600 text-sm">
+                        </div>
+
+                        <button onclick="checkFormula2()" class="w-full py-1.5 bg-indigo-100 hover:bg-indigo-200 text-indigo-800 font-bold rounded-lg text-xs transition">
+                            Перевірити
+                        </button>
+                        <div id="f2-feedback" class="text-xs font-bold text-center hidden"></div>
+                    </div>
+
+                    <!-- Formula 3 -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2.5 md:col-span-2">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-extrabold text-xs sm:text-sm text-slate-900">3. Середня швидкість нерівномірного руху:</h3>
+                            <span class="text-[11px] font-mono font-bold bg-slate-200 px-2 py-0.5 rounded text-slate-700">v_сер</span>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 bg-white p-3 rounded-lg border border-slate-200 font-mono text-sm sm:text-base">
+                            <div class="flex items-center space-x-2">
+                                <span class="font-bold text-indigo-700">v<sub>сер</sub></span>
+                                <span>=</span>
+                                <div class="flex flex-col items-center">
+                                    <span class="px-1.5 font-bold text-slate-800 text-xs sm:text-sm">l<sub>усього</sub></span>
+                                    <div class="w-full bg-slate-800 h-0.5 my-0.5"></div>
+                                    <span class="px-1.5 font-bold text-slate-800 text-xs sm:text-sm">t<sub>усього</sub></span>
+                                </div>
+                            </div>
+
+                            <span class="text-slate-400 font-sans text-xs">або</span>
+
+                            <div class="flex items-center space-x-2">
+                                <span>=</span>
+                                <div class="flex flex-col items-center">
+                                    <div class="flex items-center gap-1">
+                                        <input type="text" id="f3-l1" placeholder="l1" class="w-9 text-center py-0.5 border-2 border-dashed border-indigo-300 rounded font-bold text-indigo-600 text-xs">
+                                        <span>+</span>
+                                        <input type="text" id="f3-l2" placeholder="l2" class="w-9 text-center py-0.5 border-2 border-dashed border-indigo-300 rounded font-bold text-indigo-600 text-xs">
+                                    </div>
+                                    <div class="w-full bg-slate-800 h-0.5 my-0.5"></div>
+                                    <div class="flex items-center gap-1">
+                                        <input type="text" id="f3-t1" placeholder="t1" class="w-9 text-center py-0.5 border-2 border-dashed border-indigo-300 rounded font-bold text-indigo-600 text-xs">
+                                        <span>+</span>
+                                        <input type="text" id="f3-t2" placeholder="t2" class="w-9 text-center py-0.5 border-2 border-dashed border-indigo-300 rounded font-bold text-indigo-600 text-xs">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="checkFormula3()" class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-lg text-xs transition shadow-sm">
+                            Перевірити формулу
+                        </button>
+                        <div id="f3-feedback" class="text-xs font-bold text-center hidden"></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="pt-3 flex justify-between items-center border-t border-slate-100 shrink-0">
+                <button onclick="switchStep(3)" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition">
+                    <i class="fa-solid fa-arrow-left mr-1"></i> Назад
+                </button>
+                <button onclick="switchStep(5)" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs transition shadow-sm">
+                    Розв'язування задачі <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= STEP 5: PROBLEM SOLVING ================= -->
+        <section id="step-5" class="step-container hidden flex-1 min-h-0 flex flex-col justify-between bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200 overflow-y-auto custom-scrollbar">
+            <div class="space-y-3">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                    <div>
+                        <div class="inline-flex items-center gap-1 text-xs font-black text-indigo-600 uppercase tracking-wider">
+                            <i class="fa-solid fa-ship"></i> Пункт 5
+                        </div>
+                        <h2 class="text-base sm:text-xl font-extrabold text-slate-900">
+                            Задача: Середня швидкість човна
+                        </h2>
+                    </div>
+                    <span class="text-xs font-extrabold px-2.5 py-1 bg-indigo-100 text-indigo-800 rounded-full">
+                        Покрокове відкриття
+                    </span>
+                </div>
+
+                <!-- Problem Statement Card -->
+                <div class="bg-amber-50 border border-amber-200 p-3.5 rounded-xl shadow-sm">
+                    <h3 class="text-xs uppercase font-black text-amber-900 tracking-wider mb-1 flex items-center gap-1.5">
+                        <i class="fa-solid fa-file-pen"></i> Умова задачі:
+                    </h3>
+                    <p class="text-xs sm:text-sm text-slate-800 font-semibold leading-relaxed">
+                        Власна швидкість човна дорівнює <span class="font-extrabold text-indigo-700">8 м/с</span>, а швидкість течії річки — <span class="font-extrabold text-indigo-700">2 м/с</span>. Човен вирушив від пристані <strong>А</strong> і, діставшись пристані <strong>Б</strong>, одразу повернув назад. Яку середню шляхову швидкість човна за весь час руху визначив спостерігач на березі?
+                    </p>
+                </div>
+
+                <!-- Interactive River Simulation Canvas -->
+                <div class="bg-slate-900 rounded-xl p-3 text-white space-y-2 relative overflow-hidden">
+                    <div class="flex justify-between items-center text-xs font-bold">
+                        <span class="text-cyan-400"><i class="fa-solid fa-water"></i> Візуалізація руху човна:</span>
+                        <div class="space-x-1.5">
+                            <button onclick="runBoatAnimation('downstream')" class="px-2.5 py-1 bg-cyan-600 hover:bg-cyan-500 rounded text-[11px] font-extrabold">
+                                За течією (A → Б)
+                            </button>
+                            <button onclick="runBoatAnimation('upstream')" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-500 rounded text-[11px] font-extrabold">
+                                Проти течії (Б → А)
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="relative w-full h-20 bg-gradient-to-b from-sky-800 to-indigo-900 rounded-lg overflow-hidden border border-sky-700 flex items-center">
+                        <div class="absolute inset-0 flex items-center justify-around opacity-20 text-white text-xl font-black">
+                            <span>→ → →</span><span>→ → →</span><span>→ → →</span>
+                        </div>
+                        
+                        <div class="absolute left-2 top-1 bottom-1 w-6 bg-amber-800/80 rounded flex items-center justify-center border border-amber-600 text-xs font-bold text-amber-200">
+                            А
+                        </div>
+                        <div class="absolute right-2 top-1 bottom-1 w-6 bg-amber-800/80 rounded flex items-center justify-center border border-amber-600 text-xs font-bold text-amber-200">
+                            Б
+                        </div>
+
+                        <div id="sim-boat" class="absolute left-12 transition-all duration-[1800ms] ease-in-out flex flex-col items-center">
+                            <div id="sim-speed-badge" class="bg-indigo-500 text-[9px] font-black px-1 py-0.5 rounded text-white shadow mb-0.5">
+                                10 м/с
+                            </div>
+                            <i id="sim-boat-icon" class="fa-solid fa-ship text-2xl text-amber-300"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step-by-Step Accordion -->
+                <div class="space-y-2">
+                    <!-- Step 1 -->
+                    <div class="border border-slate-200 rounded-xl overflow-hidden">
+                        <button onclick="toggleStepDetail(1)" class="w-full p-2.5 bg-slate-50 hover:bg-slate-100 flex items-center justify-between text-left font-bold text-xs text-slate-800 transition">
+                            <span class="flex items-center gap-2">
+                                <span class="w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-[10px]">1</span>
+                                Крок 1: Запис коротокої умови (ДАНО) та швидкостей
+                            </span>
+                            <i id="step-icon-1" class="fa-solid fa-chevron-down text-slate-400 text-xs"></i>
+                        </button>
+                        <div id="step-detail-1" class="p-3 bg-white border-t border-slate-100 text-xs space-y-1">
+                            <div class="grid grid-cols-2 gap-2 bg-slate-50 p-2.5 rounded-lg font-mono">
+                                <div>
+                                    <p class="font-extrabold text-indigo-900 border-b border-slate-200 pb-0.5">ДАНО:</p>
+                                    <p>v<sub>власна</sub> = 8 м/с</p>
+                                    <p>v<sub>течії</sub> = 2 м/с</p>
+                                    <p>l<sub>A→Б</sub> = L, l<sub>Б→А</sub> = L</p>
+                                </div>
+                                <div>
+                                    <p class="font-extrabold text-indigo-900 border-b border-slate-200 pb-0.5">ЗНАЙТИ:</p>
+                                    <p class="text-amber-700 font-bold">v<sub>сер</sub> — ?</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="border border-slate-200 rounded-xl overflow-hidden">
+                        <button onclick="toggleStepDetail(2)" class="w-full p-2.5 bg-slate-50 hover:bg-slate-100 flex items-center justify-between text-left font-bold text-xs text-slate-800 transition">
+                            <span class="flex items-center gap-2">
+                                <span class="w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-[10px]">2</span>
+                                Крок 2: Швидкість та час руху в кожен бік
+                            </span>
+                            <i id="step-icon-2" class="fa-solid fa-chevron-down text-slate-400 text-xs"></i>
+                        </button>
+                        <div id="step-detail-2" class="p-3 bg-white border-t border-slate-100 text-xs space-y-2">
+                            <p>1) За течією: v<sub>1</sub> = 8 + 2 = <strong>10 м/с</strong>, t<sub>1</sub> = L / 10</p>
+                            <p>2) Проти течії: v<sub>2</sub> = 8 - 2 = <strong>6 м/с</strong>, t<sub>2</sub> = L / 6</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 & 4 -->
+                    <div class="border border-slate-200 rounded-xl overflow-hidden">
+                        <button onclick="toggleStepDetail(3)" class="w-full p-2.5 bg-slate-50 hover:bg-slate-100 flex items-center justify-between text-left font-bold text-xs text-slate-800 transition">
+                            <span class="flex items-center gap-2">
+                                <span class="w-5 h-5 rounded-full bg-amber-500 text-white flex items-center justify-center text-[10px]"><i class="fa-solid fa-star"></i></span>
+                                Крок 3 & 4: Обчислення загального часу та середньої швидкості
+                            </span>
+                            <i id="step-icon-3" class="fa-solid fa-chevron-down text-slate-400 text-xs"></i>
+                        </button>
+                        <div id="step-detail-3" class="p-3 bg-emerald-50 border-t border-emerald-100 text-xs space-y-2">
+                            <p>• Загальний шлях: l<sub>усього</sub> = 2L</p>
+                            <p>• Загальний час: t<sub>усього</sub> = (L / 10) + (L / 6) = 4L / 15 с</p>
+                            <p class="font-extrabold text-emerald-900">Формула середньої швидкості:</p>
+                            <div class="bg-white p-2.5 rounded-lg border border-emerald-200 font-mono text-center text-sm font-black">
+                                v<sub>сер</sub> = 2L / (4L / 15) = 30 / 4 = <span class="text-emerald-600 text-base">7.5 м/с</span>
+                            </div>
+                            <p class="font-bold text-slate-900">ВІДПОВІДЬ: <span class="text-emerald-700 font-extrabold">7.5 м/с</span></p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="pt-3 flex justify-between items-center border-t border-slate-100 shrink-0">
+                <button onclick="switchStep(4)" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition">
+                    <i class="fa-solid fa-arrow-left mr-1"></i> Назад
+                </button>
+                <button onclick="switchStep(6)" class="px-5 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-xl text-xs transition shadow-sm">
+                    Самостійна робота (15 хв) <i class="fa-solid fa-clock ml-1"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= STEP 6: INDEPENDENT WORK ================= -->
+        <section id="step-6" class="step-container hidden flex-1 min-h-0 flex flex-col justify-between bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200 overflow-y-auto custom-scrollbar">
+            <div class="space-y-3">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                    <div>
+                        <div class="inline-flex items-center gap-1 text-xs font-black text-amber-600 uppercase tracking-wider">
+                            <i class="fa-solid fa-clock-rotate-left"></i> Пункт 6 (Самостійна робота 1)
+                        </div>
+                        <h2 class="text-base sm:text-xl font-extrabold text-slate-900">
+                            Виконай завдання самостійної роботи 1
+                        </h2>
+                    </div>
+                    <span class="text-xs font-extrabold px-2.5 py-1 bg-amber-100 text-amber-900 rounded-full">
+                        Рекомендовано: 15 хвилин
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+                    <!-- Timer Widget -->
+                    <div class="bg-gradient-to-br from-slate-900 to-indigo-950 text-white rounded-2xl p-4 flex flex-col items-center justify-center text-center shadow-md space-y-3">
+                        <span class="text-[10px] font-black uppercase tracking-widest text-amber-400">Таймер виконання С/Р</span>
+                        
+                        <!-- Circular Timer Display -->
+                        <div class="relative w-32 h-32 flex items-center justify-center">
+                            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="42" stroke="currentColor" stroke-width="8" class="text-slate-800" fill="transparent" />
+                                <circle id="timer-circle" cx="50" cy="50" r="42" stroke="currentColor" stroke-width="8" class="text-amber-400 transition-all duration-1000" fill="transparent" stroke-dasharray="263.89" stroke-dashoffset="0" stroke-linecap="round" />
+                            </svg>
+                            <span id="timer-display" class="absolute text-2xl font-black font-mono">15:00</span>
+                        </div>
+
+                        <!-- Timer Controls -->
+                        <div class="flex gap-2 w-full">
+                            <button onclick="toggleTimer()" id="timer-toggle-btn" class="flex-1 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-lg text-xs uppercase tracking-wider transition">
+                                <i class="fa-solid fa-play mr-1"></i> Старт
+                            </button>
+                            <button onclick="resetTimer()" class="py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-lg text-xs transition">
+                                <i class="fa-solid fa-rotate-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Instructions and Summary Banner -->
+                    <div class="md:col-span-2 space-y-3 flex flex-col justify-between">
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                            <h3 class="font-extrabold text-slate-900 text-xs sm:text-sm flex items-center gap-1.5">
+                                <i class="fa-solid fa-circle-check text-emerald-500"></i> Інструкція до виконання завдання:
+                            </h3>
+                            <ul class="space-y-1.5 text-xs text-slate-700 font-medium">
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-check text-indigo-600 mt-0.5"></i>
+                                    <span>Відкрий у зошиті відповідний розворот завдання <strong>"Самостійна робота 1"</strong>.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-check text-indigo-600 mt-0.5"></i>
+                                    <span>Уважно прочитай кожне запитання та запиши стисле "ДАНО", формулу та числовий розрахунок.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-check text-indigo-600 mt-0.5"></i>
+                                    <span>Стеж за одиницями вимірювання (переводь у SI за потреби: метри, секунди, м/с).</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-check text-indigo-600 mt-0.5"></i>
+                                    <span>Запусти таймер на 15 хвилин для самоконтролю часу.</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Final Success Card -->
+                        <div class="bg-emerald-50 border border-emerald-200 p-3.5 rounded-xl flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-lg bg-emerald-500 text-white flex items-center justify-center font-bold text-base shrink-0">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-extrabold text-emerald-900 text-xs sm:text-sm">Матеріал повністю повторено!</h4>
+                                <p class="text-[11px] text-emerald-700 font-semibold">Усі етапи уроку 8 пройдені. Успіхів на самостійній роботі!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="pt-3 flex justify-between items-center border-t border-slate-100 shrink-0">
+                <button onclick="switchStep(5)" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition">
+                    <i class="fa-solid fa-arrow-left mr-1"></i> Назад до задачі
+                </button>
+                <button onclick="switchStep(1)" class="px-5 py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-xs transition">
+                    <i class="fa-solid fa-rotate-left mr-1"></i> Спочатку
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-1.5 shrink-0 z-10">
+        <div class="max-w-7xl mx-auto px-4 text-center text-[11px] font-bold text-slate-500">
+            <p>© Фізика 7 клас • Навчальна програма «Інтелект України» • Урок 8</p>
+        </div>
+    </footer>
+
+    <script>
+        // State variables
+        let currentStep = 1;
+        const totalSteps = 6;
+        
+        // Timer state
+        let timerSeconds = 15 * 60;
+        let timerInterval = null;
+        let isTimerRunning = false;
+        const totalTimerSeconds = 15 * 60;
+
+        function switchStep(stepNum) {
+            if (stepNum < 1 || stepNum > totalSteps) return;
+            currentStep = stepNum;
+
+            // Hide all steps
+            for (let i = 1; i <= totalSteps; i++) {
+                const el = document.getElementById(`step-${i}`);
+                if (el) el.classList.add('hidden');
+
+                // Desktop tab styling
+                const tabBtn = document.getElementById(`tab-btn-${i}`);
+                if (tabBtn) {
+                    if (i === stepNum) {
+                        tabBtn.className = 'step-tab px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 transition-all text-indigo-600 bg-indigo-50 border border-indigo-200/60';
+                    } else {
+                        tabBtn.className = 'step-tab px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 transition-all text-slate-600 hover:bg-slate-100';
+                    }
+                }
+
+                // Mobile tab styling
+                const mTabBtn = document.getElementById(`mobile-tab-btn-${i}`);
+                if (mTabBtn) {
+                    if (i === stepNum) {
+                        mTabBtn.className = 'whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-bold bg-indigo-600 text-white';
+                    } else {
+                        mTabBtn.className = 'whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-slate-700 border border-slate-200';
+                    }
+                }
+            }
+
+            // Show active step
+            const activeEl = document.getElementById(`step-${stepNum}`);
+            if (activeEl) activeEl.classList.remove('hidden');
+
+            // Update Progress Bar
+            const percent = Math.round((stepNum / totalSteps) * 100);
+            document.getElementById('progress-bar').style.width = `${percent}%`;
+            document.getElementById('progress-percent').innerText = `${percent}%`;
+
+            const labels = [
+                'Етап 1 з 6: Налаштування на активну роботу',
+                'Етап 2 з 6: Перевірка домашнього завдання',
+                'Етап 3 з 6: Повторення Карти знань (с. 63)',
+                'Етап 4 з 6: Тренажер формул механічного руху',
+                'Етап 5 з 6: Покроковий аналіз задачі (Човен та річка)',
+                'Етап 6 з 6: Самостійна робота 1 (15 хвилин)'
+            ];
+            document.getElementById('progress-label').innerText = labels[stepNum - 1];
+        }
+
+        function checkWarmup() {
+            const checks = document.querySelectorAll('.warmup-check');
+            let checkedCount = 0;
+            checks.forEach(c => { if(c.checked) checkedCount++; });
+        }
+
+        function startFocusBreath() {
+            const btn = document.getElementById('breath-btn');
+            const txt = document.getElementById('breath-instruction');
+            btn.disabled = true;
+            btn.classList.add('opacity-50');
+
+            let countdown = 10;
+            txt.innerText = `Вдихни повільно... Розум чистий та зосереджений (${countdown}с)`;
+
+            const timer = setInterval(() => {
+                countdown--;
+                if (countdown > 5) {
+                    txt.innerText = `Затримай подих та налаштуйся... (${countdown}с)`;
+                } else if (countdown > 0) {
+                    txt.innerText = `Видихни. Ти повністю готовий! (${countdown}с)`;
+                } else {
+                    clearInterval(timer);
+                    txt.innerText = "Готово! Фокус на максимальному рівні 🔥";
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-50');
+                }
+            }, 1000);
+        }
+
+        function checkAnswer(qNum, optIdx, isCorrect) {
+            const optionsContainer = document.getElementById(`q${qNum}-options`);
+            const buttons = optionsContainer.querySelectorAll('button');
+            const feedback = document.getElementById(`q${qNum}-feedback`);
+
+            buttons.forEach((btn, idx) => {
+                btn.disabled = true;
+                if (idx === optIdx) {
+                    if (isCorrect) {
+                        btn.className = 'text-left p-2.5 bg-emerald-50 border-2 border-emerald-500 rounded-lg text-xs font-bold text-emerald-900 flex items-center justify-between';
+                        btn.innerHTML += ' <i class="fa-solid fa-circle-check text-emerald-600 ml-2"></i>';
+                    } else {
+                        btn.className = 'text-left p-2.5 bg-rose-50 border-2 border-rose-500 rounded-lg text-xs font-bold text-rose-900 flex items-center justify-between';
+                        btn.innerHTML += ' <i class="fa-solid fa-circle-xmark text-rose-600 ml-2"></i>';
+                    }
+                }
+            });
+
+            feedback.classList.remove('hidden');
+            if (isCorrect) {
+                feedback.className = 'mt-2 text-xs font-bold p-2 rounded-lg bg-emerald-100 text-emerald-800 border border-emerald-200';
+                feedback.innerText = 'Правильно! Відмінні знання теорії.';
+            } else {
+                feedback.className = 'mt-2 text-xs font-bold p-2 rounded-lg bg-rose-100 text-rose-800 border border-rose-200';
+                feedback.innerText = 'Не зовсім вірно. Зверни увагу на правильне визначення!';
+            }
+        }
+
+        function filterMapNodes() {
+            const query = document.getElementById('map-search').value.toLowerCase();
+            const nodes = document.querySelectorAll('.node-card');
+
+            nodes.forEach(node => {
+                const title = node.getAttribute('data-title').toLowerCase();
+                const text = node.innerText.toLowerCase();
+                if (title.includes(query) || text.includes(query)) {
+                    node.style.display = 'block';
+                } else {
+                    node.style.display = 'none';
+                }
+            });
+        }
+
+        function checkFormula1() {
+            const top = document.getElementById('f1-top').value.trim().toLowerCase();
+            const bot = document.getElementById('f1-bot').value.trim().toLowerCase();
+            const feedback = document.getElementById('f1-feedback');
+            feedback.classList.remove('hidden');
+
+            if ((top === 's' || top === 's_x' || top === 'l' || top === 's⃗') && bot === 't') {
+                feedback.className = 'text-xs font-bold text-center text-emerald-600 mt-1';
+                feedback.innerText = '✓ Вірно! v = s / t';
+            } else {
+                feedback.className = 'text-xs font-bold text-center text-rose-600 mt-1';
+                feedback.innerText = '✕ Невірно. Чисельник = переміщення (s), Знаменник = час (t)';
+            }
+        }
+
+        function checkFormula2() {
+            const v1 = document.getElementById('f2-val1').value.trim().toLowerCase();
+            const v2 = document.getElementById('f2-val2').value.trim().toLowerCase();
+            const feedback = document.getElementById('f2-feedback');
+            feedback.classList.remove('hidden');
+
+            if ((v1.includes('v') && v2.includes('t')) || (v1.includes('t') && v2.includes('v'))) {
+                feedback.className = 'text-xs font-bold text-center text-emerald-600 mt-1';
+                feedback.innerText = '✓ Вірно! s_x = v_x · t';
+            } else {
+                feedback.className = 'text-xs font-bold text-center text-rose-600 mt-1';
+                feedback.innerText = '✕ Невірно. Переміщення s_x = v_x · t';
+            }
+        }
+
+        function checkFormula3() {
+            const l1 = document.getElementById('f3-l1').value.trim().toLowerCase();
+            const l2 = document.getElementById('f3-l2').value.trim().toLowerCase();
+            const t1 = document.getElementById('f3-t1').value.trim().toLowerCase();
+            const t2 = document.getElementById('f3-t2').value.trim().toLowerCase();
+            const feedback = document.getElementById('f3-feedback');
+            feedback.classList.remove('hidden');
+
+            if ((l1.includes('l1') || l1.includes('s1')) && 
+                (l2.includes('l2') || l2.includes('s2')) && 
+                (t1.includes('t1')) && 
+                (t2.includes('t2'))) {
+                feedback.className = 'text-xs font-bold text-center text-emerald-600 mt-1';
+                feedback.innerText = '✓ Відмінно! v_сер = (l1 + l2) / (t1 + t2)';
+            } else {
+                feedback.className = 'text-xs font-bold text-center text-amber-600 mt-1';
+                feedback.innerText = 'Заповни за зразком: l1, l2 в чисельнику та t1, t2 в знаменнику.';
+            }
+        }
+
+        function runBoatAnimation(direction) {
+            const boat = document.getElementById('sim-boat');
+            const badge = document.getElementById('sim-speed-badge');
+            const icon = document.getElementById('sim-boat-icon');
+
+            if (direction === 'downstream') {
+                boat.style.left = 'calc(100% - 60px)';
+                icon.style.transform = 'scaleX(1)';
+                badge.innerText = 'v1 = 8 + 2 = 10 м/с';
+                badge.className = 'bg-cyan-500 text-[9px] font-extrabold px-1 py-0.5 rounded text-white shadow mb-0.5';
+            } else {
+                boat.style.left = '48px';
+                icon.style.transform = 'scaleX(-1)';
+                badge.innerText = 'v2 = 8 - 2 = 6 м/с';
+                badge.className = 'bg-amber-500 text-[9px] font-extrabold px-1 py-0.5 rounded text-white shadow mb-0.5';
+            }
+        }
+
+        function toggleStepDetail(stepIdx) {
+            const detail = document.getElementById(`step-detail-${stepIdx}`);
+            const icon = document.getElementById(`step-icon-${stepIdx}`);
+            
+            if (detail.classList.contains('hidden')) {
+                detail.classList.remove('hidden');
+                icon.className = 'fa-solid fa-chevron-up text-indigo-600 text-xs';
+            } else {
+                detail.classList.add('hidden');
+                icon.className = 'fa-solid fa-chevron-down text-slate-400 text-xs';
+            }
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(timerSeconds / 60);
+            const secs = timerSeconds % 60;
+            const formattedMins = mins < 10 ? `0${mins}` : mins;
+            const formattedSecs = secs < 10 ? `0${secs}` : secs;
+            
+            document.getElementById('timer-display').innerText = `${formattedMins}:${formattedSecs}`;
+
+            const circle = document.getElementById('timer-circle');
+            const circumference = 2 * Math.PI * 42;
+            const offset = circumference - (timerSeconds / totalTimerSeconds) * circumference;
+            circle.style.strokeDashoffset = offset;
+        }
+
+        function toggleTimer() {
+            const btn = document.getElementById('timer-toggle-btn');
+            if (isTimerRunning) {
+                clearInterval(timerInterval);
+                isTimerRunning = false;
+                btn.innerHTML = '<i class="fa-solid fa-play mr-1"></i> Старт';
+                btn.className = 'flex-1 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-lg text-xs uppercase tracking-wider transition';
+            } else {
+                isTimerRunning = true;
+                btn.innerHTML = '<i class="fa-solid fa-pause mr-1"></i> Пауза';
+                btn.className = 'flex-1 py-2 bg-rose-500 hover:bg-rose-400 text-white font-black rounded-lg text-xs uppercase tracking-wider transition';
+
+                timerInterval = setInterval(() => {
+                    if (timerSeconds > 0) {
+                        timerSeconds--;
+                        updateTimerDisplay();
+                    } else {
+                        clearInterval(timerInterval);
+                        isTimerRunning = false;
+                        btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> Завершено!';
+                        btn.className = 'flex-1 py-2 bg-emerald-600 text-white font-black rounded-lg text-xs uppercase tracking-wider transition';
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+            timerSeconds = 15 * 60;
+            updateTimerDisplay();
+            const btn = document.getElementById('timer-toggle-btn');
+            btn.innerHTML = '<i class="fa-solid fa-play mr-1"></i> Старт';
+            btn.className = 'flex-1 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-lg text-xs uppercase tracking-wider transition';
+        }
+
+        // Initialize on Load
+        window.onload = function() {
+            switchStep(1);
+            updateTimerDisplay();
+        };
+    </script>
+</body>
+</html>
